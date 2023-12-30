@@ -12,6 +12,11 @@ const loader = document.querySelector('.loader');
 
 searchForm.addEventListener('submit', onSearchFormSubmit);
 
+const instance = new SimpleLightbox('.card-item a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 function onSearchFormSubmit(e) {
   e.preventDefault();
 
@@ -37,10 +42,7 @@ function renderCards({ hits }) {
     });
   const markup = getMarkup(hits);
   cardsList.insertAdjacentHTML('beforeend', markup);
-  const instance = new SimpleLightbox('.card-item a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
+  instance.refresh();
 }
 
 function getMarkup(data) {

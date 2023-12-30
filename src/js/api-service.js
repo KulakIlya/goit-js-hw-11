@@ -10,5 +10,10 @@ export function fetchCards(searchQuery) {
     safesearch: true,
   });
 
-  return fetch(`${BASE_URL}${SEARCH_PARAMS}`).then(res => res.json());
+  return fetch(`${BASE_URL}${SEARCH_PARAMS}`).then(res => {
+    if (!res.ok) throw new Error('Failed to fetch');
+    return res.json();
+  });
 }
+
+console.log(window);
