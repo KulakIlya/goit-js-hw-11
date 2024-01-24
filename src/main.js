@@ -20,26 +20,29 @@ const instance = new SimpleLightbox('.card-item a', {
 function onSearchFormSubmit(e) {
   e.preventDefault();
 
-  const searchQuery = e.currentTarget.elements.search.value;
+  const searchQuery = e.currentTarget.elements.search.value.trim();
   e.currentTarget.elements.search.value = '';
 
   cardsList.innerHTML = '';
   toggleLoader();
 
-  fetchCards(searchQuery).then(data => {
-    renderCards(data);
-    toggleLoader();
-  });
+  fetchCards(searchQuery)
+    .then(data => {
+      renderCards(data);
+    })
+    .then(() => toggleLoader());
 }
 
 function renderCards({ hits }) {
-  if (!hits.length)
-    return iziToast.error({
+  if (!hits.length) {
+    iziToast.error({
       title: 'Error',
       message:
         'Sorry, there are no images matching your search query. Please try again!',
       position: 'topRight',
     });
+    return;
+  }
   const markup = getMarkup(hits);
   cardsList.insertAdjacentHTML('beforeend', markup);
   instance.refresh();
